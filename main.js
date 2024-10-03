@@ -1,4 +1,4 @@
-const myLibrary = [];
+let myLibrary = [];
 const cardsContainerDiv = document.querySelector(".cardsContainer");
 
 const addBookButton = document.querySelector(".add");
@@ -28,24 +28,32 @@ function loopArray() {
         // loop and get all the books from myLibrary and display it in cards
 
         for (let [index, item] of myLibrary.entries()) {
-            let newCard = document.createElement("div");
-            newCard.className = `card${index}`;
-            newCard.innerHTML = `
-                <div class="bookIndex">Book&nbsp${ + index + 1}</div>
-                <div class="bookName">${item.title}</div>
-                <div class="bookAuthor">${item.author}</div>
-                <div class="bookNumberOfPages">${item.pages}</div>
-                <label for="readCard">Read?</label><input class="readCard" type="checkbox" ${item.read ? 'checked' : ''}><br>
-                <button id="deleteCard" class="delete">X</button>
-                `;
-            cardsContainerDiv.appendChild(newCard);
+                let newCard = document.createElement("div");
+                newCard.className = `card${index}`;
+                newCard.innerHTML = `
+                    <div class="bookIndex">Book&nbsp${ + index + 1}</div>
+                    <div class="bookName">${item.title}</div>
+                    <div class="bookAuthor">${item.author}</div>
+                    <div class="bookNumberOfPages">${item.pages}</div>
+                    <label for="readCard">Read?</label><input class="readCard" type="checkbox" ${item.read ? 'checked' : ''}><br>
+                    <button id="deleteCard" class="delete">X</button>
+                    `;
+                cardsContainerDiv.appendChild(newCard);
 
-            // create the delete button and asign a function to delete the card upon clicking
-            const deleteButton = newCard.querySelector("button.delete");
-            deleteButton.addEventListener("click", function() {
-                cardsContainerDiv.removeChild(this.parentElement)
-                myLibrary = myLibrary.filter(item => item.id !== item.id);
-            })
+                // The read button changes the status on myLibrary
+                const readButton = newCard.querySelector(".readCard");
+                readButton.addEventListener("click", () => {
+                    item.read = !item.read;
+                    readButton.checked = item.read;
+                });
+                // console.table(myLibrary);
+
+                // create the delete button and asign a function to delete the card upon clicking
+                const deleteButton = newCard.querySelector("button.delete");
+                deleteButton.addEventListener("click", function() {
+                    cardsContainerDiv.removeChild(this.parentElement)
+                    myLibrary = myLibrary.filter(book => book !== item);
+                });
         }
 }
 
