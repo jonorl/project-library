@@ -1,5 +1,10 @@
 .container {
     display: grid;
+    gap: 10vh
+}
+
+fieldset {
+    width:fit-content;
 }
 
 .addNewBookContainer {
@@ -19,4 +24,6 @@
     justify-self: center;
     justify-content: center;
     align-self: center;
+    padding: 2vh;
+    gap: 1vh;
 }

@@ -36,6 +36,7 @@ function addBookButtonFunction(event) {
     let newCard = document.createElement("div");
     newCard.className = `card${highestIndex}`;
     newCard.innerHTML = `
+        <div class="bookIndex">Book&nbsp${ + highestIndex + 1}</div>
         <div class="bookName">${name}</div>
         <div class="bookAuthor">${author}</div>
         <div class="bookNumberOfPages">${numberOfPages}</div>
