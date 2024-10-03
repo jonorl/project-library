@@ -1,6 +1,22 @@
+.container {
+    display: grid;
+}
+
 .addNewBookContainer {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     grid-template-rows: repeat(5, 1fr);
     width: fit-content;
+}
+
+.cardsContainer {
+    display: grid;
+    grid-auto-flow: column;
+}
+
+.cardsContainer > * {
+    border: 3px solid black;
+    justify-self: center;
+    justify-content: center;
+    align-self: center;
 }

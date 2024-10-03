@@ -1,4 +1,5 @@
 const myLibrary = [];
+const cardsContainerDiv = document.querySelector(".cardsContainer");
 
 const addBookButton = document.querySelector(".add");
 
@@ -16,7 +17,7 @@ function addBookToLibrary(name, author, numberOfPages, read) {
 }
 
 function addBookButtonFunction(event) {
-    
+
     // This code snippet prevents the add button from sending data to the server
     event.preventDefault();
 
@@ -25,7 +26,25 @@ function addBookButtonFunction(event) {
     let author = document.querySelector(".author").value
     let numberOfPages = document.querySelector(".numberOfPages").value
     let read = document.querySelector(".read").checked
+    let readChecked = document.querySelector(".read")
     addBookToLibrary(name, author, numberOfPages, read);
+
+    let highestIndex = myLibrary.length - 1;
+
+    // Create new cards under the cards-container div
+
+    let newCard = document.createElement("div");
+    newCard.className = `card${highestIndex}`;
+    newCard.innerHTML = `
+        <div class="bookName">${name}</div>
+        <div class="bookAuthor">${author}</div>
+        <div class="bookNumberOfPages">${numberOfPages}</div>
+        <label for="readCard">Read?</label><input class="readCard" type="checkbox" ${read ? 'checked' : ''}><br>
+        <button id="deleteCard" class="delete">X</button>
+        `;
+    cardsContainerDiv.appendChild(newCard);
+    const deleteButton = newCard.querySelector("button.delete");
+    deleteButton.addEventListener("click", function() { cardsContainerDiv.removeChild(this.parentElement)})
 
     // Return the values to blank
     document.querySelector(".name").value = "";
@@ -34,7 +53,7 @@ function addBookButtonFunction(event) {
     document.querySelector(".read").checked = false;
 
     //display the contents of myLibrary
-    console.table(myLibrary);
+    // console.table(myLibrary);
 }
 
 addBookButton.addEventListener("click", addBookButtonFunction);
