@@ -112,7 +112,7 @@ dialog.addEventListener("mousedown", e => {
       e.clientY < dialogDimensions.top ||
       e.clientY > dialogDimensions.bottom
     ) {
-      e.preventDefault;
+      e.preventDefault();
       dialog.close()
     }
   })
