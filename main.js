@@ -95,6 +95,7 @@ addBookButton.addEventListener("click", addBookButtonFunction);
 
 modalButton.addEventListener("click", (event) => {
     event.preventDefault();
+    document.querySelector("[data-open-modal]").blur();
     modal.showModal();
 })
 
@@ -103,7 +104,7 @@ cancelButton.addEventListener("click", (event) => {
     dialog.close();
 })
 
-dialog.addEventListener("click", e => {
+dialog.addEventListener("mousedown", e => {
     const dialogDimensions = dialog.getBoundingClientRect()
     if (
       e.clientX < dialogDimensions.left ||
