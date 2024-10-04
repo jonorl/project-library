@@ -8,18 +8,24 @@
 </head>
 <body>
     <div class="container">
-        <form class="addNewBook">
-            <fieldset>
-                <legend>New Book</legend>
-                <div class="addNewBookContainer">
-                    <label for="name">Name:</label><input class="name" type="text">
-                    <label for="author">Author:</label><input class="author" type="text">
-                    <label for="numberofPages">Number of pages:&nbsp</label><input class="numberOfPages" type="number">
-                    <label for="read">Read?</label><input class="read" type="checkbox">
-                    <button class="add">Add</button>
-                </div>
-            </fieldset>
-        </form>
+
+        <button data-open-modal>Add New Book</button>
+
+        <dialog data-modal>
+            <form class="addNewBook">
+                <fieldset>
+                    <legend>New Book</legend>
+                    <div class="addNewBookContainer">
+                        <label for="name">Name:</label><input class="name" type="text">
+                        <label for="author">Author:</label><input class="author" type="text">
+                        <label for="numberofPages">Number of pages:&nbsp</label><input class="numberOfPages" type="number">
+                        <label for="read">Read?</label><input class="read" type="checkbox">
+                        <button class="add">Add</button>
+                        <button class="cancel">Cancel</button>
+                    </div>
+                </fieldset>
+            </form>
+        </dialog>
 
         <div class="cardsContainer">
 

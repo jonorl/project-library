@@ -1,9 +1,14 @@
 let myLibrary = [];
-const cardsContainerDiv = document.querySelector(".cardsContainer");
 
+const cardsContainerDiv = document.querySelector(".cardsContainer");
 const addBookButton = document.querySelector(".add");
+const cancelButton = document.querySelector(".cancel")
+const modalButton = document.querySelector("[data-open-modal]")
+const dialog = document.querySelector("dialog")
+const modal = document.querySelector("[data-modal]")
 
 // Constructor function
+
 function Book(id, title, author, pages, read) {
     this.id = id;
     this.title = title;
@@ -19,50 +24,53 @@ function addBookToLibrary(id, name, author, numberOfPages, read) {
 
 function loopArray() {
 
-        // delete everything under the CardsContainer div to avoid duplication
+    // delete everything under the CardsContainer div to avoid duplication
 
-        while (cardsContainerDiv.firstChild) {
-            cardsContainerDiv.removeChild(cardsContainerDiv.firstChild);
-        }
+    while (cardsContainerDiv.firstChild) {
+        cardsContainerDiv.removeChild(cardsContainerDiv.firstChild);
+    }
 
-        // loop and get all the books from myLibrary and display it in cards
+    // loop and get all the books from myLibrary and display it in cards
 
-        for (let [index, item] of myLibrary.entries()) {
-                let newCard = document.createElement("div");
-                newCard.className = `card${index}`;
-                newCard.innerHTML = `
-                    <div class="bookIndex">Book&nbsp${ + index + 1}</div>
-                    <div class="bookName">${item.title}</div>
-                    <div class="bookAuthor">${item.author}</div>
-                    <div class="bookNumberOfPages">${item.pages}</div>
-                    <label for="readCard">Read?</label><input class="readCard" type="checkbox" ${item.read ? 'checked' : ''}><br>
-                    <button id="deleteCard" class="delete">X</button>
-                    `;
-                cardsContainerDiv.appendChild(newCard);
+    for (let [index, item] of myLibrary.entries()) {
+        let newCard = document.createElement("div");
+        newCard.className = `card${index}`;
+        newCard.innerHTML = `
+            <div class="bookIndex">Book&nbsp${ + index + 1}</div>
+            <div class="bookName">${item.title}</div>
+            <div class="bookAuthor">${item.author}</div>
+            <div class="bookNumberOfPages">${item.pages}</div>
+            <label for="readCard">Read?</label><input class="readCard" type="checkbox" ${item.read ? 'checked' : ''}><br>
+            <button id="deleteCard" class="delete">X</button>
+            `;
+        cardsContainerDiv.appendChild(newCard);
 
-                // The read button changes the status on myLibrary
-                const readButton = newCard.querySelector(".readCard");
-                readButton.addEventListener("click", () => {
-                    item.read = !item.read;
-                    readButton.checked = item.read;
-                });
-                // console.table(myLibrary);
+        // The read button changes the status on myLibrary
 
-                // create the delete button and asign a function to delete the card upon clicking
-                const deleteButton = newCard.querySelector("button.delete");
-                deleteButton.addEventListener("click", function() {
-                    cardsContainerDiv.removeChild(this.parentElement)
-                    myLibrary = myLibrary.filter(book => book !== item);
-                });
-        }
+        const readButton = newCard.querySelector(".readCard");
+        readButton.addEventListener("click", () => {
+            item.read = !item.read;
+            readButton.checked = item.read;
+        });
+
+        // create the delete button and asign a function to delete the card upon clicking
+
+        const deleteButton = newCard.querySelector("button.delete");
+        deleteButton.addEventListener("click", function() {
+            cardsContainerDiv.removeChild(this.parentElement)
+            myLibrary = myLibrary.filter(book => book !== item);
+        });
+    }
 }
 
 function addBookButtonFunction(event) {
 
     // This code snippet prevents the add button from sending data to the server
+
     event.preventDefault();
 
     // Take the values from the form and push them to the MyLibrary Array of Objects.
+
     let name = document.querySelector(".name").value;
     let author = document.querySelector(".author").value
     let numberOfPages = document.querySelector(".numberOfPages").value
@@ -72,13 +80,38 @@ function addBookButtonFunction(event) {
     loopArray()
 
     // Return the values to blank
+
     document.querySelector(".name").value = "";
     document.querySelector(".author").value = "";
     document.querySelector(".numberOfPages").value = "";
     document.querySelector(".read").checked = false;
 
-    //display the contents of myLibrary
-    // console.table(myLibrary);
+    dialog.close()
 }
 
 addBookButton.addEventListener("click", addBookButtonFunction);
+
+// modals
+
+modalButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    modal.showModal();
+})
+
+cancelButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    dialog.close();
+})
+
+dialog.addEventListener("click", e => {
+    const dialogDimensions = dialog.getBoundingClientRect()
+    if (
+      e.clientX < dialogDimensions.left ||
+      e.clientX > dialogDimensions.right ||
+      e.clientY < dialogDimensions.top ||
+      e.clientY > dialogDimensions.bottom
+    ) {
+      e.preventDefault;
+      dialog.close()
+    }
+  })
