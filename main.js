@@ -9,13 +9,16 @@ const modal = document.querySelector("[data-modal]")
 
 // Constructor function
 
-function Book(id, title, author, pages, read) {
-    this.id = id;
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.read = read;
+class Book {
+    constructor(id, title, author, pages, read) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.read = read;
+    }
 }
+
 
 function addBookToLibrary(id, name, author, numberOfPages, read) {
     let addedBook = new Book(id, name, author, numberOfPages, read);
