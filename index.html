@@ -16,10 +16,14 @@
                 <fieldset>
                     <legend>New Book</legend>
                     <div class="addNewBookContainer">
-                        <label for="name">Name:</label><input class="name" type="text">
-                        <label for="author">Author:</label><input class="author" type="text">
-                        <label for="numberofPages">Number of pages:&nbsp</label><input class="numberOfPages" type="number">
-                        <label for="read">Read?</label><input class="read" type="checkbox">
+                        <label for="name">Name:&nbsp;<input id="name" type="text">
+                        <span class="error" aria-live="polite"></span></label>
+                        <label for="author">Author:&nbsp;<input id="author" type="text">
+                        <span class="error" aria-live="polite"></label>
+                        <label for="numberofPages"># of pages:&nbsp;<input id="numberOfPages" type="number">
+                        <span class="error" aria-live="polite"></span></label>
+                        <label for="read">Read?<input id="read" type="checkbox">
+                        <span class="error" aria-live="polite"></span></label>
                         <button class="add">Add</button>
                         <button class="cancel">Cancel</button>
                     </div>
