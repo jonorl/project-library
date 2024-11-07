@@ -8,7 +8,10 @@ const dialog = document.querySelector("dialog");
 const modal = document.querySelector("[data-modal]");
 const form = document.querySelector(".addNewBook")
 let nameInput;
+let authorInput;
+let pagesInput;
 const nameRegex = /^([a-zA-Z]+\s)*[a-zA-Z]+$/;
+const numRegex = /^[0-9]+$/;
 let error;
 
 // Constructor function
@@ -73,8 +76,6 @@ function addBookButtonFunction(event) {
 
   event.preventDefault();
 
-  validation();
-
   // Take the values from the form and push them to the MyLibrary Array of Objects.
 
   let name = document.querySelector("#name").value;
@@ -101,19 +102,31 @@ addBookButton.addEventListener("click", function(event) {
 
 // modals
 
-modalButton.addEventListener("click", (event) => {
+modalButton.addEventListener("click", function(event) {
   event.preventDefault();
   document.querySelector("[data-open-modal]").blur();
   modal.showModal();
+  currentInput = event.target;
 
+  // JS validation stuff
 
   nameInput = document.querySelector("#name");
-  error = nameInput.nextElementSibling;
-  const isValid = nameInput.value.length === 0 || nameRegex.test(nameInput.value);
-  nameInput.className = isValid ? "valid" : "invalid";
-  nameInput.addEventListener("input", () => {
-    const isValid = nameInput.value.length === 0 || nameRegex.test(nameInput.value);
-    if (isValid) {
+  authorInput = document.querySelector("#author");
+  pagesInput = document.querySelector("#numberOfPages")
+
+  const isValidName = nameInput.value.length === 0 || nameRegex.test(nameInput.value);
+  const isValidAuthor = authorInput.value.length === 0 || nameRegex.test(authorInput.value);
+  const isValidPages = pagesInput.value.length === 0 || numRegex.test(pagesInput.value);
+
+  nameInput.className = isValidName ? "valid" : "invalid";
+  authorInput.className = isValidAuthor ? "valid" : "invalid";
+  pagesInput.className = isValidPages ? "valid" : "invalid";
+
+  nameInput.addEventListener("input", function(event) {
+    error = event.target.nextElementSibling;
+    validation(event);
+    const isValidName = nameInput.value.length === 0 || nameRegex.test(nameInput.value);
+    if (isValidName) {
       nameInput.className = "valid";
       error.textContent = "";
       error.className = "error";
@@ -122,9 +135,35 @@ modalButton.addEventListener("click", (event) => {
       nameInput.className = "invalid";
     }
   });
-});
 
-modal.addEventListener("keydown", validation)
+  authorInput.addEventListener("input", function(event) {
+    error = event.target.nextElementSibling;
+    validation(event);
+    const isValidAuthor = authorInput.value.length === 0 || nameRegex.test(authorInput.value);
+    if (isValidAuthor) {
+      authorInput.className = "valid";
+      error.textContent = "";
+      error.className = "error";
+    } 
+    else {
+      authorInput.className = "invalid";
+    }
+  });
+
+  pagesInput.addEventListener("input", function(event) {
+    error = event.target.nextElementSibling;
+    validation(event);
+    if(pagesInput.validity.badInput) {
+      pagesInput.setCustomValidity("Please enter an integer")
+      pagesInput.className = "invalid";
+    } else {
+      pagesInput.setCustomValidity("");
+      pagesInput.className = "valid";
+      error.textContent = "";
+      error.className = "error";
+    }
+  }); 
+});
 
 cancelButton.addEventListener("click", (event) => {
   event.preventDefault();
@@ -144,14 +183,21 @@ dialog.addEventListener("mousedown", (e) => {
   }
 });
 
-function validation () {
-    const isValid = nameInput.value.length === 0 || nameRegex.test(nameInput.value);
-    if (!isValid) {
-        nameInput.className = "invalid";
-        error.textContent = "Invalid name!";
+function validation (event) {
+    let checkIfValid;
+    inputSelection = event.target;
+    if(inputSelection.id !== "numberOfPages"){
+      checkIfValid = inputSelection.value.length === 0 || nameRegex.test(inputSelection.value);
+    }
+    else {
+      checkIfValid = numRegex.test(inputSelection.value);
+    }
+    if (!checkIfValid) {
+        inputSelection.className = "invalid";
+        error.textContent = "Invalid char!";
         error.className = "error active";
     } else {
-        nameInput.className = "valid";
+        inputSelection.className = "valid";
         error.textContent = "";
         error.className = "error";
     }
